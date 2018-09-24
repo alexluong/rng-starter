@@ -1,4 +1,4 @@
-import { authenticated } from "../auth"
+import { authenticated } from "modules/auth"
 
 const resolvers = {
   Query: {

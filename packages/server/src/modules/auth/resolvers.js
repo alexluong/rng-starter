@@ -16,13 +16,18 @@ const resolvers = {
       { email, password },
       { User },
     ) => {
-      const user = await User.findOne({ email })
-      const isCorrectPassword = await user.isCorrectPassword(password)
+      try {
+        const user = await User.findOne({ email })
+        const isCorrectPassword = await user.isCorrectPassword(password)
 
-      if (isCorrectPassword) {
-        return createAuthPayload(user)
-      } else {
-        throw new Error("Incorrect Password")
+        if (isCorrectPassword) {
+          return createAuthPayload(user)
+        } else {
+          throw new Error("Incorrect Password")
+        }
+      } catch (error) {
+        console.error(`ERROR: ${error}`)
+        throw new Error("Not authenticated.")
       }
     },
   },
