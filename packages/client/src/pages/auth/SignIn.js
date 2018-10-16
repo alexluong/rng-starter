@@ -1,10 +1,76 @@
 import React from "react"
-import { css, cx } from "react-emotion"
-import { Link } from "react-router-dom"
-import { TextField, Button, Divider } from "react-md"
+import { Link } from "@reach/router"
 import { Mutation } from "react-apollo"
 import { gql } from "apollo-boost"
-import AuthLayout from "./components/AuthLayout"
+// UIs
+import { Button, Input } from "elements"
+
+class SignInPage extends React.Component {
+  state = { email: "", password: "" }
+
+  handleInputChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  render() {
+    const { email, password } = this.state
+
+    return (
+      <div>
+        <p>Sign In</p>
+        <Mutation
+          mutation={SIGN_IN_MUTATION}
+          variables={this.state}
+          update={(cache, { data: { signInWithEmailAndPassword } }) => {
+            const { token, user } = signInWithEmailAndPassword
+
+            console.log({ token, user })
+          }}
+          onError={error => {
+            console.log({ error })
+          }}
+        >
+          {(signIn, { loading, error }) => (
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                signIn()
+              }}
+            >
+              <Input
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={this.handleInputChange}
+              />
+
+              <Input
+                name="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={this.handleInputChange}
+              />
+
+              <Button type="submit">Sign In</Button>
+
+              {loading && <p>Loading...</p>}
+              {error && <p>{error.graphQLErrors[0].message}</p>}
+            </form>
+          )}
+        </Mutation>
+
+        <Link to="/">Home</Link>
+        <Link to="/sign-up">Sign Up</Link>
+      </div>
+    )
+  }
+}
+
+export default SignInPage
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String!, $password: String!) {
@@ -19,80 +85,4 @@ const SIGN_IN_MUTATION = gql`
       }
     }
   }
-`
-
-class SignInPage extends React.Component {
-  state = { email: "", password: "" }
-
-  handleInputChange = name => value => {
-    this.setState({ [name]: value })
-  }
-
-  render() {
-    const { email, password } = this.state
-
-    return (
-      <Mutation mutation={SIGN_IN_MUTATION} variables={this.state}>
-        {signIn => (
-          <AuthLayout title="Sign In">
-            <h1 className={centerAlignCss} style={{ marginTop: "3rem" }}>
-              Sign In
-            </h1>
-
-            <form
-              className={formCss}
-              onSubmit={async e => {
-                e.preventDefault()
-                const response = await signIn()
-                console.log(response)
-              }}
-            >
-              <TextField
-                id="floating-email"
-                type="email"
-                label="Email"
-                lineDirection="center"
-                value={email}
-                onChange={this.handleInputChange("email")}
-              />
-              <TextField
-                id="floating-password"
-                type="password"
-                label="Password"
-                lineDirection="center"
-                value={password}
-                onChange={this.handleInputChange("password")}
-              />
-
-              <Button raised primary type="submit" style={{ marginTop: 20 }}>
-                Sign In
-              </Button>
-            </form>
-
-            <Divider />
-
-            <div className={cx(centerAlignCss, footerCss)}>
-              <p>
-                New to us? <Link to="sign-up">Create an account.</Link>
-              </p>
-            </div>
-          </AuthLayout>
-        )}
-      </Mutation>
-    )
-  }
-}
-
-export default SignInPage
-
-const formCss = css`
-  padding: 0 3rem 3rem 3rem;
-`
-
-const centerAlignCss = css`
-  text-align: center;
-`
-
-const footerCss = css`
-  padding: 2rem;
 `

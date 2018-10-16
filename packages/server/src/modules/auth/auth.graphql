@@ -5,5 +5,11 @@ type AuthPayload {
 
 type Mutation {
   signInWithEmailAndPassword(email: String!, password: String!): AuthPayload
-  signUpWithEmailAndPassword(email: String!, password: String!): AuthPayload
+
+  signUpWithEmailAndPassword(
+    email: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+  ): AuthPayload
 }

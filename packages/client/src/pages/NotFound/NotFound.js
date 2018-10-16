@@ -1,9 +1,9 @@
 import React from "react"
 
-class NotFoundPage extends React.Component {
-  render() {
-    return <div>Not Found</div>
-  }
-}
+const NotFoundPage = () => (
+  <div>
+    <p>Not Found</p>
+  </div>
+)
 
 export default NotFoundPage

@@ -1,30 +1,25 @@
-import { authenticated } from "modules/auth"
+import { baseResolver, isAuthenticatedResolver } from "modules/auth"
 
 const resolvers = {
   Query: {
-    users: async (parent, args, { User }) => {
+    users: async (root, args, { models: { User } }) => {
       const users = await User.find()
       return users
     },
   },
   Mutation: {
-    createUser: async (parent, args, { User }) => {
-      const user = await new User(args).save()
-      return user
-    },
-    updateUser: authenticated(
-      async (parents, { profile }, { User, userId }) => {
-        try {
-          const user = await User.findById(userId)
-          user.profile = {
-            ...user.profile,
-            ...profile,
-          }
-          await user.save()
-          return user
-        } catch (error) {
-          console.error(error)
+    /**
+     * Update User
+     */
+    updateUser: isAuthenticatedResolver.createResolver(
+      async (root, { profile }, { userId, models: { User } }) => {
+        const user = await User.findById(userId)
+        user.profile = {
+          ...user.profile,
+          ...profile,
         }
+        await user.save()
+        return user
       },
     ),
   },

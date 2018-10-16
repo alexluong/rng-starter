@@ -3,11 +3,6 @@ type Profile {
   lastName: String
 }
 
-input ProfileInput {
-  firstName: String
-  lastName: String
-}
-
 type User {
   id: ID!
   email: String!
@@ -19,6 +14,5 @@ type Query {
 }
 
 type Mutation {
-  createUser(email: String!, password: String!, profile: ProfileInput!): User!
-  updateUser(profile: ProfileInput): User!
+  updateUser(firstName: String, lastName: String): User!
 }

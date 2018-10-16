@@ -1,17 +1,21 @@
 import jwt from "jsonwebtoken"
 
-const APP_SECRET = process.env.APP_SECRET
+const JWT_SECRET = process.env.JWT_SECRET
 
-const authenticated = fn => async (parents, args, context, info) => {
-  const Authorization = context.request.get("Authorization")
-  if (Authorization) {
-    const token = Authorization.replace("Bearer ", "")
-    const { userId } = jwt.verify(token, APP_SECRET)
-    context.userId = userId
-    return await fn(parents, args, context, info)
+const getUserIdFromRequest = request => {
+  const Authorization = request.get("Authorization")
+  if (!Authorization) {
+    return null
   } else {
-    throw new Error("Not authenticated")
+    const token = Authorization.replace("Bearer ", "")
+    try {
+      const { userId } = jwt.verify(token, JWT_SECRET)
+      return userId
+    } catch (error) {
+      return null
+    }
   }
 }
 
-export { authenticated }
+export { getUserIdFromRequest }
+export * from "./helperResolvers"

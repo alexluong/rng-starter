@@ -31,14 +31,10 @@ UserSchema.pre("save", async function(next) {
 })
 
 UserSchema.methods.isCorrectPassword = async function(candidatePassword) {
-  try {
-    const user = await User.findById(this.id)
-      .select("password")
-      .exec()
-    return await bcrypt.compare(candidatePassword, user.password)
-  } catch (error) {
-    console.error(error)
-  }
+  const user = await User.findById(this.id)
+    .select("password")
+    .exec()
+  return await bcrypt.compare(candidatePassword, user.password)
 }
 
 const User = mongoose.model("User", UserSchema)

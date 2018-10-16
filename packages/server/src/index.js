@@ -4,6 +4,7 @@ import "config/database.js"
 import path from "path"
 import { GraphQLServer } from "graphql-yoga"
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas"
+import { getUserIdFromRequest } from "./modules/auth"
 
 // Schema
 const typesArray = fileLoader(path.join(__dirname, "modules/**/*.graphql"))
@@ -25,10 +26,13 @@ const modelsObject = modelsArray.reduce((a, model) => {
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-  context: request => ({
-    ...request,
-    ...modelsObject,
-  }),
+  context: ({ request }) => {
+    const userId = getUserIdFromRequest(request)
+    return {
+      userId,
+      models: modelsObject,
+    }
+  },
 })
 
 server.start(() => console.log("Server is running on http://localhost:4000"))
