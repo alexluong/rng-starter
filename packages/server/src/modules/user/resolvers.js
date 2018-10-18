@@ -1,4 +1,4 @@
-import { baseResolver, isAuthenticatedResolver } from "modules/auth"
+import { isAuthenticatedResolver } from "modules/auth"
 
 const resolvers = {
   Query: {

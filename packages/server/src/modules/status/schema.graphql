@@ -1,0 +1,25 @@
+type Owner {
+  id: ID
+  email: String
+  profile: Profile
+}
+
+type Status {
+  id: ID
+  content: String
+  imageURL: String
+  owner: Owner
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  status(statusId: ID): Status
+  statuses: [Status]!
+}
+
+extend type Mutation {
+  createStatus(content: String!, imageURL: String): Status!
+  deleteStatus(statusId: ID): Status
+  updateStatus(statusId: ID, content: String, imageURL: String): Status
+}
