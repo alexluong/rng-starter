@@ -5,10 +5,13 @@ const UnknownError = createError("UnknownError", {
   message: "Unknown error.",
 })
 
-const baseResolver = createResolver(
-  null,
-  (root, args, context, error) =>
-    isInstance(error) ? error : new UnknownError(),
-)
+const baseResolver = createResolver(null, (root, args, context, error) => {
+  if (isInstance(error)) {
+    return error
+  } else {
+    console.log(error)
+    return new UnknownError()
+  }
+})
 
 export default baseResolver

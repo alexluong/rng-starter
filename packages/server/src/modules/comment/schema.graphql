@@ -1,0 +1,13 @@
+type Comment {
+  id: ID!
+  status: Status!
+  content: String
+  imageURL: String
+  owner: Owner!
+  createdAt: String!
+  updatedAt: String!
+}
+
+extend type Mutation {
+  createComment(statusId: ID!, content: String!, imageURL: String): Comment!
+}

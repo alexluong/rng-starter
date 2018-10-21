@@ -1,14 +1,25 @@
-import { isAuthenticatedResolver } from "modules/auth"
-import { NotStatusOwnerError, NoUpdateDataError } from "./errors"
+import { baseResolver, isAuthenticatedResolver } from "modules/auth"
 import { isStatusOwnerResolver } from "./helperResolvers"
+import { NotStatusOwnerError, NoUpdateDataError } from "./errors"
 
 const resolvers = {
   Status: {
-    owner: ({ ownerId }, args, { models: { User } }) => {
-      return User.findById(ownerId)
-    },
-    createdAt: ({ createdAt }) => JSON.stringify(createdAt),
-    updatedAt: ({ updatedAt }) => JSON.stringify(updatedAt),
+    owner: baseResolver.createResolver(
+      ({ ownerId }, args, { models: { User } }) => {
+        return User.findById(ownerId)
+      },
+    ),
+    comments: baseResolver.createResolver(
+      ({ _id }, args, { models: { Comment } }) => {
+        return Comment.find({ statusId: _id })
+      },
+    ),
+    createdAt: baseResolver.createResolver(({ createdAt }) =>
+      JSON.stringify(createdAt),
+    ),
+    updatedAt: baseResolver.createResolver(({ updatedAt }) =>
+      JSON.stringify(updatedAt),
+    ),
   },
   Query: {
     /**

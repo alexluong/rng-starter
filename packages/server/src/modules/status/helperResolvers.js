@@ -1,7 +1,8 @@
-import { isAuthenticatedResolver } from "modules/auth"
+import { and } from "apollo-resolvers"
+import { baseResolver, isAuthenticatedResolver } from "modules/auth"
 import { NotStatusOwnerError, StatusNotFoundError } from "./errors"
 
-export const statusExistedResolver = isAuthenticatedResolver.createResolver(
+export const statusExistedResolver = baseResolver.createResolver(
   async (root, { statusId }, { models: { Status } }) => {
     const status = await Status.findById(statusId)
     if (!status) {
@@ -10,12 +11,13 @@ export const statusExistedResolver = isAuthenticatedResolver.createResolver(
   },
 )
 
-export const isStatusOwnerResolver = statusExistedResolver.createResolver(
-  async (root, { statusId }, { userId, models: { Status } }) => {
-    const status = await Status.findById(statusId)
+export const isStatusOwnerResolver = and(
+  isAuthenticatedResolver,
+  statusExistedResolver,
+)(async (root, { statusId }, { userId, models: { Status } }) => {
+  const status = await Status.findById(statusId)
 
-    if (status.ownerId.toString() !== userId) {
-      throw new NotStatusOwnerError()
-    }
-  },
-)
+  if (status.ownerId.toString() !== userId) {
+    throw new NotStatusOwnerError()
+  }
+})

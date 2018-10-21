@@ -9,6 +9,7 @@ type Status {
   content: String
   imageURL: String
   owner: Owner
+  comments: [Comment]!
   createdAt: String
   updatedAt: String
 }
