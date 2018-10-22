@@ -4,23 +4,22 @@ import {
   isAuthenticatedResolver,
   UnauthorizedError,
 } from "modules/auth"
-import { NotStatusOwnerError, StatusNotFoundError } from "./errors"
+import { StatusNotFoundError } from "./errors"
 
 export const statusExistedResolver = baseResolver.createResolver(
-  async (root, { statusId }, { models: { Status } }) => {
-    const status = await Status.findById(statusId)
+  async (root, { statusId }, context) => {
+    const status = await context.models.Status.findById(statusId)
     if (!status) {
       throw new StatusNotFoundError()
     }
+    context.status = status
   },
 )
 
 export const isStatusOwnerResolver = and(
   isAuthenticatedResolver,
   statusExistedResolver,
-)(async (root, { statusId }, { userId, models: { Status } }) => {
-  const status = await Status.findById(statusId)
-
+)((root, args, { userId, status }) => {
   if (status.ownerId.toString() !== userId) {
     throw new UnauthorizedError()
   }

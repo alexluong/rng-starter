@@ -28,8 +28,8 @@ const resolvers = {
      * Delete comment
      */
     deleteComment: or(isCommentOwnerResolver, isCommentStatusOwnerResolver)(
-      (root, { commentId }, { models: { Comment } }) => {
-        return Comment.findByIdAndDelete(commentId)
+      (root, args, { comment }) => {
+        return comment.removed()
       },
     ),
   },

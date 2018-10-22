@@ -1,4 +1,7 @@
-import { isAuthenticatedResolver } from "modules/auth"
+import {
+  isAuthenticatedResolver,
+  isAuthenticatedWithUserResolver,
+} from "modules/auth"
 
 const resolvers = {
   Query: {
@@ -17,15 +20,12 @@ const resolvers = {
      * Update User
      * TODO: Fix permission
      */
-    updateUser: isAuthenticatedResolver.createResolver(
-      async (root, { profile }, { userId, models: { User } }) => {
-        const user = await User.findById(userId)
-        user.profile = {
-          ...user.profile,
-          ...profile,
-        }
-        await user.save()
-        return user
+    updateUser: isAuthenticatedWithUserResolver.createResolver(
+      (root, { firstName, lastName }, { user }) => {
+        if (firstName) user.profile.firstName = firstName
+        if (lastName) user.profile.lastName = lastName
+
+        return user.save()
       },
     ),
   },

@@ -53,35 +53,23 @@ const resolvers = {
      * Delete status
      */
     deleteStatus: isStatusOwnerResolver.createResolver(
-      async (root, { statusId }, { userId, models: { Status } }) => {
-        const status = await Status.findById(statusId)
-
-        if (status.ownerId.toString() !== userId) {
-          throw new NotStatusOwnerError()
-        }
-
+      (root, args, { status }) => {
         return status.remove()
       },
     ),
     /**
      * Update status
-     * TODO: Hopefully there's a way to pass status down
      */
     updateStatus: isStatusOwnerResolver.createResolver(
-      (root, { statusId, content, imageURL }, { models: { Status } }) => {
-        const update = { content, imageURL }
-        if (!content) delete update.content
-        if (!imageURL) delete update.imageURL
-
-        if (Object.keys(update).length === 0) {
+      (root, { content, imageURL }, { status }) => {
+        if (!content && !imageURL) {
           throw new NoUpdateDataError()
         }
 
-        return Status.findByIdAndUpdate(
-          statusId,
-          { content, imageURL },
-          { new: true },
-        )
+        if (content) status.content = content
+        if (imageURL) status.imageURL = imageURL
+
+        return status.save()
       },
     ),
   },
