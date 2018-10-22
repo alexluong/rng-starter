@@ -1,8 +1,8 @@
 import React from "react"
-import { Link } from "@reach/router"
 import { Mutation } from "react-apollo"
-import { gql } from "apollo-boost"
+import { signInMutation } from "./auth.gql"
 // UIs
+import { Link } from "@reach/router"
 import { Button, Input } from "elements"
 
 class SignInPage extends React.Component {
@@ -21,15 +21,16 @@ class SignInPage extends React.Component {
       <div>
         <p>Sign In</p>
         <Mutation
-          mutation={SIGN_IN_MUTATION}
+          mutation={signInMutation}
           variables={this.state}
           update={(cache, { data: { signInWithEmailAndPassword } }) => {
             const { token, user } = signInWithEmailAndPassword
 
-            console.log({ token, user })
-          }}
-          onError={error => {
-            console.log({ error })
+            localStorage.setItem("accessToken", token)
+            localStorage.setItem("me", JSON.stringify(user))
+
+            cache.writeData({ data: { accessToken: token, me: user } })
+            this.props.navigate("/")
           }}
         >
           {(signIn, { loading, error }) => (
@@ -71,18 +72,3 @@ class SignInPage extends React.Component {
 }
 
 export default SignInPage
-
-const SIGN_IN_MUTATION = gql`
-  mutation SIGN_IN_MUTATION($email: String!, $password: String!) {
-    signInWithEmailAndPassword(email: $email, password: $password) {
-      token
-      user {
-        email
-        profile {
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-`

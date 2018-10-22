@@ -1,0 +1,10 @@
+query meQuery {
+  me @client {
+    id
+    email
+    profile {
+      firstName
+      lastName
+    }
+  }
+}

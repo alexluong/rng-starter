@@ -1,0 +1,6 @@
+query getStatus {
+  statuses {
+    id
+    content
+  }
+}

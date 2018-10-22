@@ -1,8 +1,8 @@
 import React from "react"
-import { Link } from "@reach/router"
 import { Mutation } from "react-apollo"
-import { gql } from "apollo-boost"
+import { signUpMutation } from "./auth.gql"
 // UIs
+import { Link } from "@reach/router"
 import { Button, Input } from "elements"
 
 class SignUpPage extends React.Component {
@@ -27,7 +27,7 @@ class SignUpPage extends React.Component {
       <div>
         <p>Sign Up</p>
         <Mutation
-          mutation={SIGN_UP_MUTATION}
+          mutation={signUpMutation}
           variables={this.state}
           update={(cache, { data: { signUpWithEmailAndPassword } }) => {
             const { token, user } = signUpWithEmailAndPassword
@@ -99,28 +99,3 @@ class SignUpPage extends React.Component {
 }
 
 export default SignUpPage
-
-const SIGN_UP_MUTATION = gql`
-  mutation SIGN_UP_MUTATION(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signUpWithEmailAndPassword(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      token
-      user {
-        email
-        profile {
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-`

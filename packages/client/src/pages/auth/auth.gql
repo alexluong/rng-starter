@@ -1,0 +1,36 @@
+mutation signInMutation($email: String!, $password: String!) {
+  signInWithEmailAndPassword(email: $email, password: $password) {
+    token
+    user {
+      id
+      email
+      profile {
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+mutation signUpMutation(
+  $firstName: String!
+  $lastName: String!
+  $email: String!
+  $password: String!
+) {
+  signUpWithEmailAndPassword(
+    firstName: $firstName
+    lastName: $lastName
+    email: $email
+    password: $password
+  ) {
+    token
+    user {
+      email
+      profile {
+        firstName
+        lastName
+      }
+    }
+  }
+}
