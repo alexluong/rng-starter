@@ -1,11 +1,11 @@
 type Comment {
   id: ID!
-  status: Status!
   content: String
   imageURL: String
+  status: Status!
   owner: Owner!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 extend type Mutation {

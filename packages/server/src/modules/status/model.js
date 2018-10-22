@@ -12,19 +12,14 @@ const StatusSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
-    type: Number,
-    required: true,
+    type: Date,
+    default: Date.now,
   },
-  updatedAt: {
-    type: Number,
-    required: true,
-  },
+  updatedAt: Date,
 })
 
-StatusSchema.pre("validate", function() {
-  const now = new Date().getTime()
-  this.createdAt = now
-  this.updatedAt = now
+StatusSchema.pre("save", function() {
+  this.updatedAt = Date.now()
 })
 
 const Status = mongoose.model("Status", StatusSchema)

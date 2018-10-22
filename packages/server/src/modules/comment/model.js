@@ -10,19 +10,14 @@ const CommentSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
-    type: Number,
-    required: true,
+    type: Date,
+    default: Date.now,
   },
-  updatedAt: {
-    type: Number,
-    required: true,
-  },
+  updatedAt: Date,
 })
 
-CommentSchema.pre("validate", function() {
-  const now = new Date().getTime()
-  this.createdAt = now
-  this.updatedAt = now
+CommentSchema.pre("save", function() {
+  this.updatedAt = Date.now()
 })
 
 const Comment = mongoose.model("Comment", CommentSchema)

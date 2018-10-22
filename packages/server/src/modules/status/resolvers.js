@@ -1,6 +1,6 @@
 import { baseResolver, isAuthenticatedResolver } from "modules/auth"
 import { isStatusOwnerResolver } from "./helperResolvers"
-import { NotStatusOwnerError, NoUpdateDataError } from "./errors"
+import { NoUpdateDataError } from "./errors"
 
 const resolvers = {
   Status: {
@@ -13,12 +13,6 @@ const resolvers = {
       ({ id }, args, { models: { Comment } }) => {
         return Comment.find({ statusId: id })
       },
-    ),
-    createdAt: baseResolver.createResolver(({ createdAt }) =>
-      JSON.stringify(createdAt),
-    ),
-    updatedAt: baseResolver.createResolver(({ updatedAt }) =>
-      JSON.stringify(updatedAt),
     ),
   },
   Query: {
@@ -59,6 +53,7 @@ const resolvers = {
     ),
     /**
      * Update status
+     * TODO: Add validation resolvers
      */
     updateStatus: isStatusOwnerResolver.createResolver(
       (root, { content, imageURL }, { status }) => {

@@ -7,11 +7,11 @@ type Owner {
 type Status {
   id: ID
   content: String
-  imageURL: String
-  owner: Owner
+  imageURL: URL
+  owner: Owner!
   comments: [Comment]!
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
