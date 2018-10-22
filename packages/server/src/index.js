@@ -8,7 +8,7 @@ import { formatError } from "apollo-errors"
 import { getUserIdFromRequest } from "./modules/auth"
 
 // Schema
-const typesArray = fileLoader(path.join(__dirname, "modules/**/*.graphql"))
+const typesArray = fileLoader(path.join(__dirname, "modules/**/schema.gql"))
 const typeDefs = mergeTypes(typesArray, { all: true })
 
 // Resolvers
@@ -45,5 +45,5 @@ const options = {
 }
 
 server.start(options, ({ port }) =>
-  console.log(`Server is running on http://localhost:${port}`),
+  console.log(`🚀 Server is running on http://localhost:${port}`),
 )
