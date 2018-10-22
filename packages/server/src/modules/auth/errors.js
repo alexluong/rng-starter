@@ -4,6 +4,10 @@ export const UnauthenticatedError = createError("UnauthenticatedError", {
   message: "Authentication required.",
 })
 
+export const UnauthorizedError = createError("UnauthorizedError", {
+  message: "Unauthorized.",
+})
+
 export const AlreadyAuthenticatedError = createError(
   "AlreadyAuthenticatedError",
   {
@@ -17,10 +21,6 @@ export const AuthenticationFailedError = createError(
     message: "Incorrect email and password.",
   },
 )
-
-// export const ForbiddenError = createError("ForbiddenError", {
-//   message: "Not allowed.",
-// })
 
 export const UserAlreadyExistedError = createError("UserAlreadyExistedError", {
   message: "User already existed.",

@@ -1,6 +1,10 @@
-import { and } from "apollo-resolvers"
+import { and, or } from "apollo-resolvers"
 import { baseResolver, isAuthenticatedResolver } from "modules/auth"
 import { statusExistedResolver } from "modules/status"
+import {
+  isCommentOwnerResolver,
+  isCommentStatusOwnerResolver,
+} from "./helperResolvers"
 
 const resolvers = {
   Comment: {
@@ -18,6 +22,14 @@ const resolvers = {
       (root, args, { userId, models: { Comment } }) => {
         const comment = new Comment({ ...args, ownerId: userId })
         return comment.save()
+      },
+    ),
+    /**
+     * Delete comment
+     */
+    deleteComment: or(isCommentOwnerResolver, isCommentStatusOwnerResolver)(
+      (root, { commentId }, { models: { Comment } }) => {
+        return Comment.findByIdAndDelete(commentId)
       },
     ),
   },

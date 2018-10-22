@@ -19,3 +19,4 @@ const getUserIdFromRequest = request => {
 
 export { getUserIdFromRequest }
 export * from "./helperResolvers"
+export * from "./errors"

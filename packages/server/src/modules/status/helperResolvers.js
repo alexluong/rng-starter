@@ -1,5 +1,9 @@
 import { and } from "apollo-resolvers"
-import { baseResolver, isAuthenticatedResolver } from "modules/auth"
+import {
+  baseResolver,
+  isAuthenticatedResolver,
+  UnauthorizedError,
+} from "modules/auth"
 import { NotStatusOwnerError, StatusNotFoundError } from "./errors"
 
 export const statusExistedResolver = baseResolver.createResolver(
@@ -18,6 +22,6 @@ export const isStatusOwnerResolver = and(
   const status = await Status.findById(statusId)
 
   if (status.ownerId.toString() !== userId) {
-    throw new NotStatusOwnerError()
+    throw new UnauthorizedError()
   }
 })

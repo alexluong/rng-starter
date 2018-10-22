@@ -2,14 +2,20 @@ import { isAuthenticatedResolver } from "modules/auth"
 
 const resolvers = {
   Query: {
-    users: async (root, args, { models: { User } }) => {
-      const users = await User.find()
-      return users
-    },
+    /**
+     * Get all users
+     * TODO: Fix permission
+     */
+    users: isAuthenticatedResolver.createResolver(
+      (root, args, { models: { User } }) => {
+        return User.find()
+      },
+    ),
   },
   Mutation: {
     /**
      * Update User
+     * TODO: Fix permission
      */
     updateUser: isAuthenticatedResolver.createResolver(
       async (root, { profile }, { userId, models: { User } }) => {

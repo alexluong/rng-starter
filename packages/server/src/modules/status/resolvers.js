@@ -10,8 +10,8 @@ const resolvers = {
       },
     ),
     comments: baseResolver.createResolver(
-      ({ _id }, args, { models: { Comment } }) => {
-        return Comment.find({ statusId: _id })
+      ({ id }, args, { models: { Comment } }) => {
+        return Comment.find({ statusId: id })
       },
     ),
     createdAt: baseResolver.createResolver(({ createdAt }) =>
@@ -52,7 +52,7 @@ const resolvers = {
     /**
      * Delete status
      */
-    deleteStatus: isAuthenticatedResolver.createResolver(
+    deleteStatus: isStatusOwnerResolver.createResolver(
       async (root, { statusId }, { userId, models: { Status } }) => {
         const status = await Status.findById(statusId)
 

@@ -10,4 +10,5 @@ type Comment {
 
 extend type Mutation {
   createComment(statusId: ID!, content: String!, imageURL: String): Comment!
+  deleteComment(commentId: ID!): Comment
 }
