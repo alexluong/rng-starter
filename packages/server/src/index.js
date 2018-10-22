@@ -4,6 +4,7 @@ import "config/database.js"
 import path from "path"
 import { GraphQLServer } from "graphql-yoga"
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas"
+import { formatError } from "apollo-errors"
 import { getUserIdFromRequest } from "./modules/auth"
 
 // Schema
@@ -23,6 +24,7 @@ const modelsObject = modelsArray.reduce((a, model) => {
   return a
 }, {})
 
+// Server
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
@@ -35,4 +37,13 @@ const server = new GraphQLServer({
   },
 })
 
-server.start(() => console.log("Server is running on http://localhost:4000"))
+// Options
+const PORT = 4000
+const options = {
+  port: PORT,
+  formatError,
+}
+
+server.start(options, ({ port }) =>
+  console.log(`Server is running on http://localhost:${port}`),
+)
