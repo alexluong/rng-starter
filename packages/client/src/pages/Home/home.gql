@@ -2,5 +2,7 @@ query getStatus {
   statuses {
     id
     content
+    imageURL
+    createdAt
   }
 }

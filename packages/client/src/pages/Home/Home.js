@@ -7,7 +7,11 @@ import { Link } from "@reach/router"
 const HomePage = () => (
   <Query query={getStatus}>
     {({ data, loading, error }) => {
-      console.log(data, loading, error)
+      if (loading) return <p>Loading</p>
+      if (error) return <p>Error</p>
+
+      const status = data.statuses[0]
+      console.log(status)
 
       return (
         <div>
