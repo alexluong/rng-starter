@@ -5,9 +5,11 @@
   "sideEffects": false,
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
+    "@babel/runtime": "^7.1.2",
     "@reach/router": "^1.2.1",
     "apollo-boost": "^0.1.16",
     "graphql": "^14.0.2",
@@ -29,7 +31,10 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.1.2",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-info": "^3.4.11",
+    "@storybook/react": "^3.4.11",
+    "babel-core": "npm:@babel/core",
     "babel-loader": "^8.0.4",
     "babel-plugin-styled-components": "^1.8.0",
     "css-loader": "^1.0.0",
