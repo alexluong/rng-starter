@@ -3,6 +3,12 @@ query getStatus {
     id
     content
     imageURL
-    createdAt
+    updatedAt
+  }
+}
+
+mutation createStatus($content: String!, $imageURL: String) {
+  createStatus(content: $content, imageURL: $imageURL) {
+    id
   }
 }
