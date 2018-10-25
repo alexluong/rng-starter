@@ -1,4 +1,4 @@
-import User from "./model"
+import User from "./user.model"
 
 export async function createUser({ firstName, lastName, email, password }) {
   const user = new User({

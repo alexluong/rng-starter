@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "@reach/router"
 import { Query } from "react-apollo"
 import { getStatusById } from "./status.gql"
 // UIs
@@ -16,6 +17,10 @@ const StatusPage = ({ statusId, ...props }) => (
 
       return (
         <div>
+          <Link to="/">Back to Home</Link>
+
+          <hr />
+
           <p>Content: {status.content}</p>
           <p>Image: {status.imageURL}</p>
           <p>Last updated: {status.updatedAt}</p>

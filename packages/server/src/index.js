@@ -8,17 +8,17 @@ import { formatError } from "apollo-errors"
 import { getUserIdFromRequest } from "./modules/auth"
 
 // Schema
-const typesArray = fileLoader(path.join(__dirname, "modules/**/schema.gql"))
+const typesArray = fileLoader(path.join(__dirname, "modules/**/*.schema.gql"))
 const typeDefs = mergeTypes(typesArray, { all: true })
 
 // Resolvers
 const resolversArray = fileLoader(
-  path.join(__dirname, "modules/**/resolvers.js"),
+  path.join(__dirname, "modules/**/*.resolvers.js"),
 )
 const resolvers = mergeResolvers(resolversArray)
 
 // Context (Mongoose Models)
-const modelsArray = fileLoader(path.join(__dirname, "modules/**/model.js"))
+const modelsArray = fileLoader(path.join(__dirname, "modules/**/*.model.js"))
 const modelsObject = modelsArray.reduce((a, model) => {
   a[model.modelName] = model
   return a
@@ -34,6 +34,9 @@ const server = new GraphQLServer({
       userId,
       models: modelsObject,
     }
+  },
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
   },
 })
 

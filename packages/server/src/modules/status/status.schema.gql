@@ -1,4 +1,4 @@
-type Owner {
+type Owner implements UserData {
   id: ID
   email: String
   profile: Profile

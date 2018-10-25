@@ -11,7 +11,7 @@ const resolvers = {
     ),
     comments: baseResolver.createResolver(
       ({ id }, args, { models: { Comment } }) => {
-        return Comment.find({ statusId: id })
+        return Comment.find({ statusId: id }).sort("-createdAt")
       },
     ),
   },
@@ -31,7 +31,7 @@ const resolvers = {
      */
     statuses: isAuthenticatedResolver.createResolver(
       (root, args, { models: { Status } }) => {
-        return Status.find()
+        return Status.find().sort("-createdAt")
       },
     ),
   },

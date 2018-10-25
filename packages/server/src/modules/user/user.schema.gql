@@ -9,6 +9,12 @@ type User {
   profile: Profile!
 }
 
+interface UserData {
+  id: ID
+  email: String
+  profile: Profile
+}
+
 type Query {
   users: [User]!
 }

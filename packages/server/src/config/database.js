@@ -12,9 +12,9 @@ async function connectDatabase() {
       },
     )
 
-    console.log("Database connected")
+    console.log("🔥 Database connected")
   } catch (error) {
-    console.error(`Database connection error: ${error}`)
+    console.error(`👻 Database connection error: ${error}`)
   }
 }
 

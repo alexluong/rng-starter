@@ -1,7 +1,7 @@
 import { and, or } from "apollo-resolvers"
 import { baseResolver, isAuthenticatedResolver } from "modules/auth"
-import { statusExistedResolver } from "modules/status"
 import {
+  statusExistedResolver,
   isCommentOwnerResolver,
   isCommentStatusOwnerResolver,
 } from "./helperResolvers"
