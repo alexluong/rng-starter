@@ -14,6 +14,12 @@ module.exports = (_, argv) => {
   }, {})
 
   return {
+    output: {
+      path: path.resolve(__dirname, ".", "build"),
+      filename: "[name].js",
+      chunkFilename: "[name].chunk.js",
+      publicPath: "/",
+    },
     module: {
       rules: [
         {

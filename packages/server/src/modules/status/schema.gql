@@ -15,12 +15,12 @@ type Status {
 }
 
 type Query {
-  status(statusId: ID): Status
+  getStatusById(statusId: ID!): Status
   statuses: [Status]!
 }
 
 extend type Mutation {
-  createStatus(content: String!, imageURL: String): Status!
+  createStatus(content: String!, imageURL: URL): Status!
   deleteStatus(statusId: ID): Status
-  updateStatus(statusId: ID, content: String, imageURL: String): Status
+  updateStatus(statusId: ID, content: String, imageURL: URL): Status
 }

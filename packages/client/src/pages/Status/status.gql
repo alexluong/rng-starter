@@ -1,0 +1,21 @@
+query getStatusById($statusId: ID!) {
+  status: getStatusById(statusId: $statusId) {
+    id
+    content
+    imageURL
+    updatedAt
+    owner {
+      id
+      email
+    }
+    comments {
+      id
+      content
+      updatedAt
+      owner {
+        id
+        email
+      }
+    }
+  }
+}

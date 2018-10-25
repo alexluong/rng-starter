@@ -1,0 +1,11 @@
+mutation createComment($statusId: ID!, $content: String!, $imageURL: URL) {
+  createComment(statusId: $statusId, content: $content, imageURL: $imageURL) {
+    id
+  }
+}
+
+mutation deleteComment($commentId: ID!) {
+  deleteComment(commentId: $commentId) {
+    id
+  }
+}

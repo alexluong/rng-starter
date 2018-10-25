@@ -7,6 +7,7 @@ import HomePage from "pages/Home"
 import SignInPage from "pages/auth/SignIn"
 import SignUpPage from "pages/auth/SignUp"
 import SignOutPage from "pages/auth/SignOut"
+import StatusPage from "pages/Status"
 import NotFoundPage from "pages/NotFound"
 
 const Routes = () => (
@@ -19,6 +20,7 @@ const Routes = () => (
       return (
         <Router>
           <HomePage path="/" />
+          <StatusPage path="/status/:statusId" />
 
           {/* Auth */}
           {isAuthed ? (

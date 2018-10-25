@@ -19,17 +19,19 @@ const resolvers = {
     /**
      * Get a status from statusId
      */
-    status: isAuthenticatedResolver.createResolver(
+    getStatusById: isAuthenticatedResolver.createResolver(
       (root, { statusId }, { models: { Status } }) => {
         return Status.findById(statusId)
       },
     ),
     /**
-     * Get all statuses from a user
+     * Get all statuses from everyone
+     * Permission: admin only
+     * TODO: Work on permission
      */
     statuses: isAuthenticatedResolver.createResolver(
-      (root, args, { userId, models: { Status } }) => {
-        return Status.find({ ownerId: userId })
+      (root, args, { models: { Status } }) => {
+        return Status.find()
       },
     ),
   },

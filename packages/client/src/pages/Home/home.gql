@@ -1,4 +1,4 @@
-query getStatus {
+query getStatuses {
   statuses {
     id
     content
@@ -7,8 +7,14 @@ query getStatus {
   }
 }
 
-mutation createStatus($content: String!, $imageURL: String) {
+mutation createStatus($content: String!, $imageURL: URL) {
   createStatus(content: $content, imageURL: $imageURL) {
+    id
+  }
+}
+
+mutation deleteStatus($statusId: ID!) {
+  deleteStatus(statusId: $statusId) {
     id
   }
 }

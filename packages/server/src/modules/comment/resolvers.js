@@ -29,7 +29,7 @@ const resolvers = {
      */
     deleteComment: or(isCommentOwnerResolver, isCommentStatusOwnerResolver)(
       (root, args, { comment }) => {
-        return comment.removed()
+        return comment.remove()
       },
     ),
   },
