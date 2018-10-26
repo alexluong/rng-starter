@@ -40,8 +40,8 @@ const resolvers = {
      * Create status
      */
     createStatus: isAuthenticatedResolver.createResolver(
-      (root, { content, imageURL }, { userId, models: { Status } }) => {
-        const status = new Status({ content, imageURL, ownerId: userId })
+      (root, { content, imageUrl }, { userId, models: { Status } }) => {
+        const status = new Status({ content, imageUrl, ownerId: userId })
         return status.save()
       },
     ),
@@ -58,13 +58,13 @@ const resolvers = {
      * TODO: Add validation resolvers
      */
     updateStatus: isStatusOwnerResolver.createResolver(
-      (root, { content, imageURL }, { status }) => {
-        if (!content && !imageURL) {
+      (root, { content, imageUrl }, { status }) => {
+        if (!content && !imageUrl) {
           throw new NoUpdateDataError()
         }
 
         if (content) status.content = content
-        if (imageURL) status.imageURL = imageURL
+        if (imageUrl) status.imageUrl = imageUrl
 
         return status.save()
       },

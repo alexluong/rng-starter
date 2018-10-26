@@ -6,7 +6,7 @@ const StatusSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  imageURL: String,
+  imageUrl: String,
   ownerId: {
     type: ObjectId,
     required: true,

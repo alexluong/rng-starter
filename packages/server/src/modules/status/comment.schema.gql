@@ -1,7 +1,7 @@
 type Comment {
   id: ID!
   content: String
-  imageURL: URL
+  imageUrl: URL
   status: Status!
   owner: Owner!
   createdAt: DateTime!
@@ -9,6 +9,6 @@ type Comment {
 }
 
 extend type Mutation {
-  createComment(statusId: ID!, content: String!, imageURL: URL): Comment!
+  createComment(statusId: ID!, content: String!, imageUrl: URL): Comment!
   deleteComment(commentId: ID!): Comment
 }

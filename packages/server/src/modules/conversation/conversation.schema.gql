@@ -1,0 +1,25 @@
+type Participant implements UserData {
+  id: ID
+  email: String
+  profile: Profile
+  userId: ID
+  name: String
+}
+
+type Conversation {
+  id: ID
+  participants: [Participant]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  conversations: [Conversation]!
+  getConversationById(conversationId: ID!): Conversation
+}
+
+extend type Mutation {
+  createConversation(participantIds: [ID!]!): Conversation!
+  # deleteConversation(conversationId: ID): Conversation
+  # updateConversation(conversationId: ID, content: String, imageUrl: URL): Conversation
+}

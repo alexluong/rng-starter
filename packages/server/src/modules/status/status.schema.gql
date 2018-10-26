@@ -7,7 +7,7 @@ type Owner implements UserData {
 type Status {
   id: ID
   content: String
-  imageURL: URL
+  imageUrl: URL
   owner: Owner!
   comments: [Comment]!
   createdAt: DateTime!
@@ -15,12 +15,12 @@ type Status {
 }
 
 type Query {
-  getStatusById(statusId: ID!): Status
   statuses: [Status]!
+  getStatusById(statusId: ID!): Status
 }
 
 extend type Mutation {
-  createStatus(content: String!, imageURL: URL): Status!
+  createStatus(content: String!, imageUrl: URL): Status!
   deleteStatus(statusId: ID): Status
-  updateStatus(statusId: ID, content: String, imageURL: URL): Status
+  updateStatus(statusId: ID, content: String, imageUrl: URL): Status
 }

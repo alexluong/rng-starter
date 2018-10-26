@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const CommentSchema = new mongoose.Schema({
   statusId: ObjectId,
   content: String,
-  imageURL: String,
+  imageUrl: String,
   ownerId: {
     type: ObjectId,
     required: true,
