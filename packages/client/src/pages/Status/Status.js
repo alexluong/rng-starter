@@ -22,7 +22,7 @@ const StatusPage = ({ statusId, ...props }) => (
           <hr />
 
           <p>Content: {status.content}</p>
-          <p>Image: {status.imageURL}</p>
+          <p>Image: {status.imageUrl}</p>
           <p>Last updated: {status.updatedAt}</p>
           <p>Comments:</p>
 

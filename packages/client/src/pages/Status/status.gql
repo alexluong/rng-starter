@@ -2,7 +2,7 @@ query getStatusById($statusId: ID!) {
   status: getStatusById(statusId: $statusId) {
     id
     content
-    imageURL
+    imageUrl
     updatedAt
     owner {
       id

@@ -14,7 +14,7 @@ const Status = ({ status }) => (
     {(deleteStatus, { loading, error }) => (
       <div>
         <p>Content: {status.content}</p>
-        <p>Image: {status.imageURL}</p>
+        <p>Image: {status.imageUrl}</p>
         <p>Last updated: {status.updatedAt}</p>
         <Button as={Link} to={`/status/${status.id}`}>
           More
