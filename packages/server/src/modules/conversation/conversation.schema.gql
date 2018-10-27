@@ -2,13 +2,13 @@ type Participant implements UserData {
   id: ID
   email: String
   profile: Profile
-  userId: ID
   name: String
 }
 
 type Conversation {
   id: ID
   participants: [Participant]!
+  messages: [Message]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

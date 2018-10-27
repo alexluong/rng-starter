@@ -27,12 +27,18 @@ const resolvers = {
         return participantsArr.map((participant, i) => ({
           ...users[i],
           ...participant,
+          id: participant.userId,
         }))
       },
     ),
-  },
-  Participant: {
-    id: ({ _id }) => _id,
+    /**
+     * Resolve messages
+     */
+    messages: isParticipantOfConversationResolver.createResolver(
+      ({ id }, args, { models: { Message } }) => {
+        return Message.find({ conversationId: id })
+      },
+    ),
   },
   Query: {
     /**

@@ -1,0 +1,12 @@
+type Message {
+  id: ID!
+  conversationId: ID!
+  text: String
+  owner(simple: Boolean = false): Participant!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+extend type Mutation {
+  createMessage(conversationId: ID!, text: String!): Message!
+}

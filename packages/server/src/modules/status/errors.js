@@ -1,10 +1,10 @@
 import { createError } from "apollo-errors"
 
-export const StatusNotFoundError = createError("UnauthenticatedError", {
+export const StatusNotFoundError = createError("StatusNotFoundError", {
   message: "Cannot find status.",
 })
 
-export const CommentNotFoundError = createError("UnauthenticatedError", {
+export const CommentNotFoundError = createError("CommentNotFoundError", {
   message: "Cannot find comment.",
 })
 
