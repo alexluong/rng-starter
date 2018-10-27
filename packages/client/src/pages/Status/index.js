@@ -1,2 +1,1 @@
-import StatusPage from "./Status"
-export default StatusPage
+export { default } from "./Status"
