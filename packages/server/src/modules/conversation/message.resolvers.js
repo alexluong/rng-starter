@@ -41,12 +41,25 @@ const resolvers = {
   Mutation: {
     /**
      * Create message
+     * 1. Create message
+     * 2. Notify pubsub (for subscription)
+     * 3. Return newly created message
      */
     createMessage: isParticipantOfConversationResolver.createResolver(
-      async (root, args, { pubsub, userId, models: { Message } }) => {
-        const message = await Message.create({ ...args, ownerId: userId })
-        await pubsub.publish(MESSAGE_CREATED, { createdMessage: message })
-        return message
+      async (
+        root,
+        { conversationId, text },
+        { pubsub, userId, models: { Message } },
+      ) => {
+        const createdMessage = await Message.create({
+          conversationId,
+          text,
+          ownerId: userId,
+        })
+        await pubsub.publish(MESSAGE_CREATED, {
+          messageCreated: createdMessage,
+        })
+        return createdMessage
       },
     ),
     /**
@@ -56,7 +69,9 @@ const resolvers = {
       async (root, { text }, { pubsub, message }) => {
         message.text = text
         const updatedMessage = await message.save()
-        await pubsub.publish(MESSAGE_UPDATED, { updatedMessage })
+        await pubsub.publish(MESSAGE_UPDATED, {
+          messageUpdated: updatedMessage,
+        })
         return updatedMessage
       },
     ),
@@ -82,8 +97,8 @@ const resolvers = {
 
           return withFilter(
             () => pubsub.asyncIterator(MESSAGE_UPDATED),
-            ({ updatedMessage }, { messageId }) => {
-              return updatedMessage.id.toString() === messageId
+            ({ messageUpdated }, { messageId }) => {
+              return messageUpdated.id.toString() === messageId
             },
           )(root, args, context)
         },
