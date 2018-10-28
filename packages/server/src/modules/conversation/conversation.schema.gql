@@ -16,6 +16,7 @@ type Conversation {
 type Query {
   conversations: [Conversation]!
   getConversationById(conversationId: ID!): Conversation
+  getConversationsByUser: [Conversation]!
 }
 
 extend type Mutation {

@@ -9,4 +9,10 @@ type Message {
 
 extend type Mutation {
   createMessage(conversationId: ID!, text: String!): Message!
+  updateMessage(messageId: ID!, text: String!): Message!
+}
+
+type Subscription {
+  messageCreated: Message
+  messageUpdated(messageId: ID!): Message
 }

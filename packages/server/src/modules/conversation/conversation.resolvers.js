@@ -57,6 +57,19 @@ const resolvers = {
         return conversation
       },
     ),
+    /**
+     * Get conversations by user
+     * TODO: Mongoose query with Map Type not working right now
+     */
+    getConversationsByUser: isAuthenticatedResolver.createResolver(
+      async (root, args, { userId, models: { Conversation } }) => {
+        const conversations = (await Conversation.find()).filter(conversation =>
+          conversation.participants.has(userId),
+        )
+
+        return conversations
+      },
+    ),
   },
   Mutation: {
     /**

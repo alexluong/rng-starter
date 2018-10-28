@@ -10,3 +10,7 @@ export const ConversationNotFoundError = createError(
     message: "Cannot find conversation.",
   },
 )
+
+export const MessageNotFoundError = createError("MessageNotFoundError", {
+  message: "Cannot find message.",
+})

@@ -2,10 +2,10 @@ import "config/index.js"
 import "config/database.js"
 
 import path from "path"
-import { GraphQLServer } from "graphql-yoga"
+import { GraphQLServer, PubSub } from "graphql-yoga"
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas"
 import { formatError } from "apollo-errors"
-import { getUserIdFromRequest } from "./modules/auth"
+import { getUserIdFromToken } from "./modules/auth"
 
 // Schema
 const typesArray = fileLoader(path.join(__dirname, "modules/**/*.schema.gql"))
@@ -25,18 +25,30 @@ const modelsObject = modelsArray.reduce((a, model) => {
 }, {})
 
 // Server
+const pubsub = new PubSub()
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-  context: ({ request }) => {
-    const userId = getUserIdFromRequest(request)
-    return {
-      userId,
-      models: modelsObject,
-    }
-  },
   resolverValidationOptions: {
     requireResolversForResolveType: false,
+  },
+  context: ({ request, connection }) => {
+    const context = {}
+    let token
+
+    if (connection) {
+      token = connection.context.Authorization
+    } else {
+      token = request.get("Authorization")
+    }
+
+    context.pubsub = pubsub
+    context.models = modelsObject
+    context.userId = token
+      ? getUserIdFromToken(token.replace("Bearer ", ""))
+      : ""
+
+    return context
   },
 })
 

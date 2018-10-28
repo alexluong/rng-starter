@@ -8,11 +8,13 @@ import { StatusNotFoundError, CommentNotFoundError } from "./errors"
 
 export const statusExistedResolver = baseResolver.createResolver(
   async (root, { statusId }, context) => {
-    const status = await context.models.Status.findById(statusId)
-    if (!status) {
-      throw new StatusNotFoundError()
+    if (!context.status) {
+      const status = await context.models.Status.findById(statusId)
+      if (!status) {
+        throw new StatusNotFoundError()
+      }
+      context.status = status
     }
-    context.status = status
   },
 )
 
@@ -27,11 +29,13 @@ export const isStatusOwnerResolver = and(
 
 export const commentExistedResolver = baseResolver.createResolver(
   async (root, { commentId }, context) => {
-    const comment = await context.models.Comment.findById(commentId)
-    if (!comment) {
-      throw new CommentNotFoundError()
+    if (!context.comment) {
+      const comment = await context.models.Comment.findById(commentId)
+      if (!comment) {
+        throw new CommentNotFoundError()
+      }
+      context.comment = comment
     }
-    context.comment = comment
   },
 )
 
